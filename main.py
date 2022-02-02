@@ -19,3 +19,4 @@ elif int(ans) == 1:
 # test = client.list(r'/media/pi/D/share/test')
 # page.copy_to_server(client,r'C:\Users\alexandr.guslyanniko\Desktop\PTW\доки',r'/media/pi/D/share/test')
 # page.copy_from_server(client, folder_from, folder_to)
+#work

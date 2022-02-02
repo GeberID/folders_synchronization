@@ -40,3 +40,6 @@ class Client:
         answer = ftp.listdir(path=path2)
         self.ssh.close()
         return answer
+
+
+#work
