@@ -1,4 +1,6 @@
 import os
+
+
 class Page:
     def __init__(self):
         self.page = 'Null'
@@ -22,7 +24,7 @@ class Page:
             for name in names:
                 self.files_url_list.append(os.path.join(root, name))
                 files.append(name)
-        return  files
+        return files
 
     def create_local_page(self, page, list_dir_from, list_dir_to):
         if len(list_dir_to) != 0:
@@ -46,14 +48,14 @@ class Page:
     def log(self):
         pass
 
-    def copy_to_server(self,transfer,page_from,page_to):
+    def copy_to_server(self, transfer, page_from, page_to):
         files_list = self.walk_local_page(page_from)
-        x=0
+        x = 0
         for i in self.files_url_list:
-            transfer.put_files(i,page_to +'/'+ files_list[x])
-            x=x+1
+            transfer.put_files(i, page_to + '/' + files_list[x])
+            x = x + 1
 
     def copy_from_server(self, transfer, page_from, page_to):
-        files_list = self.walk_local_page(page_from)
-        for i in self.files_url_list:
-            transfer.get_files(i, page_to)
+        answer = transfer.list(page_from)
+        for i in answer:
+            transfer.get_files(page_from + '/' + i, page_to + '/' + i)
