@@ -1,3 +1,3 @@
-# folders_synchronization
-folders synchronization
-This is my project for sync folders from my pc and my raspberry pi
+# Folders synchronization 
+
+Folders synchronization is a Python script that uses library paramiko for transparent files from one PC to another PC.
