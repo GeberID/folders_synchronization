@@ -59,4 +59,3 @@ class Page:
         answer = transfer.list(page_from)
         for i in answer:
             transfer.get_files(page_from + '/' + i, page_to + '/' + i)
-#work
