@@ -44,25 +44,31 @@ class Page:
     def get_local_page(self, page):
         os.chdir(page)
 
-    def log(self,files):
+    def log_date(self):
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
         file = open('logs/log.txt','a+')
         file.write("Current Time = " + current_time+'\n')
+        file.close()
+
+    def log_files(self,files):
+        file = open('logs/log.txt','a+')
         file.write(files+'\n')
         file.close()
 
     def copy_to_server(self, transfer, page_from, page_to):
         files_list = self.walk_local_page(page_from)
         x = 0
+        self.log_date()
         for i in self.files_url_list:
             transfer.put_files(i, page_to + '/' + files_list[x])
             log = i + " - "+ page_to + '/' + files_list[x]
-            self.log(log)
+            self.log_files(log)
             x = x + 1
 
     def copy_from_server(self, transfer, page_from, page_to):
         answer = transfer.list(page_from)
+        self.log_date()
         for i in answer:
             transfer.get_files(page_from + '/' + i, page_to + '/' + i)
-            self.log(page_from + '/' + i+ " - " + page_to + '/' + i)
+            self.log_files(page_from + '/' + i+ " - " + page_to + '/' + i)

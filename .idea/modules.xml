@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/syn.iml" filepath="$PROJECT_DIR$/.idea/syn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/folders_synchronization.iml" filepath="$PROJECT_DIR$/.idea/folders_synchronization.iml" />
     </modules>
   </component>
 </project>
