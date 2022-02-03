@@ -3,9 +3,9 @@ from page import Page
 
 client = Client()
 page = Page()
-folder_from = input("Sync folder from:")
-folder_to = input('Sync folder to:')
 while True:
+    folder_from = input("Sync folder from:")
+    folder_to = input('Sync folder to:')
     print('''
 Sync from server: 0
 Sync to server : 1

@@ -1,7 +1,6 @@
 import paramiko
 from page import Page
 
-
 class Client:
     host = '10.37.168.10'
     port = 22
