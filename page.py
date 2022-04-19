@@ -7,12 +7,14 @@ class Page:
         self.dir_list = list()
         self.check = 0
 
+#Проверка на существтвание локадьной папки
     def check_local_page(self, page):
         if os.path.exists(page) == True:
             return 1
         else:
             return 0
 
+#Обход всего дерева локальной папки
     def walk_local_page(self, page):
         self.files_url_list = list()
         self.dir_list = list()
@@ -25,6 +27,7 @@ class Page:
                 files.append(name)
         return files
 
+#Создание локальной папки
     def create_local_page(self, page, list_dir_from, list_dir_to):
         if len(list_dir_to) != 0:
             for i in list_dir_from:
@@ -41,9 +44,11 @@ class Page:
             for dir in list_dir_from:
                 os.makedirs(page + '/' + dir)
 
+# Открыть локальную папку
     def get_local_page(self, page):
         os.chdir(page)
 
+#Запись даты в лог файла
     def log_date(self):
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
@@ -51,11 +56,13 @@ class Page:
         file.write("Current Time = " + current_time+'\n')
         file.close()
 
+# Создание лога и записи в него переданных файлов
     def log_files(self,files):
         file = open('logs/log.txt','a+')
         file.write(files+'\n')
         file.close()
 
+# Обертка копирования информации с локальной папки на удаленное устройство
     def copy_to_server(self, transfer, page_from, page_to):
         files_list = self.walk_local_page(page_from)
         x = 0
@@ -66,6 +73,7 @@ class Page:
             self.log_files(log)
             x = x + 1
 
+# Обертка копирования информации с уудаленногг устройства в локальную папку
     def copy_from_server(self, transfer, page_from, page_to):
         answer = transfer.list(page_from)
         self.log_date()
