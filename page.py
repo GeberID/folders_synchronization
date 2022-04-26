@@ -1,5 +1,7 @@
 import os, zipfile
 from datetime import datetime
+from logs import Logs
+log = Logs()
 class Page:
     def __init__(self):
         self.page = 'Null'
@@ -50,31 +52,31 @@ class Page:
     def get_local_page(self, page):
         os.chdir(page)
 
-# Создание лога и записи в него переданных файлов
-    def log_files(self, files):
-        now = datetime.now()
-        self.current_time = now.strftime("%m_%d_%Y_%H_%M_%S")
-        file = open(f'logs/log_{self.current_time}.txt', 'a')
-        file.write("Current Time = " + self.current_time + '\n')
-        file.write(files+'\n')
-        self.log_file_link = os.getcwd() + f"/logs"
-        file.close()
-
-
-    def delete_log_file(self):
-        file = self.walk_local_page(os.getcwd() + "/logs")
-        for i in self.files_url_list:
-            os.remove(i)
-
-    def send_log_files(self,transfer):
-        try:
-            files_list = self.walk_local_page(self.log_file_link)
-            for i in files_list:
-                transfer.put_files(self.log_file_link+"/" +i,
-                                   f'/media/pi/D/share/BACKUPS/logs/log_{self.current_time}.txt')
-        except:
-            print('Error send log file')
-        self.delete_log_file()
+# # Создание лога и записи в него переданных файлов
+#     def log_files(self, files):
+#         now = datetime.now()
+#         self.current_time = now.strftime("%m_%d_%Y_%H_%M_%S")
+#         file = open(f'logs/log_{self.current_time}.txt', 'a')
+#         file.write("Current Time = " + self.current_time + '\n')
+#         file.write(files+'\n')
+#         self.log_file_link = os.getcwd() + f"/logs"
+#         file.close()
+#
+#
+#     def delete_log_file(self):
+#         file = self.walk_local_page(os.getcwd() + "/logs")
+#         for i in self.files_url_list:
+#             os.remove(i)
+#
+#     def send_log_files(self,transfer):
+#         try:
+#             files_list = self.walk_local_page(self.log_file_link)
+#             for i in files_list:
+#                 transfer.put_files(self.log_file_link+"/" +i,
+#                                    f'/media/pi/D/share/BACKUPS/logs/log_{self.current_time}.txt')
+#         except:
+#             print('Error send log file')
+#         self.delete_log_file()
 
 # Обертка копирования информации с локальной папки на удаленное устройство
     def copy_to_server(self, transfer, page_from, page_to):
@@ -93,7 +95,7 @@ class Page:
             #log = page_from + '/' + i+ " - " + page_to + '/' + i
             #self.log_files(log)
 
-#Функиц ясоздает снапшит папки на компьютере со всеми файлами находящейся в ней.
+#Функция создает снапшот папки на компьютере со всеми файлами находящейся в ней.
 # Необходима для последующей передачи файла локально на удаленный компьютер (разберри)
     def create_snapshot(self,page_from):
         now = datetime.now()
@@ -105,7 +107,7 @@ class Page:
                 continue
             else:
                 snap.write(page_from+"/"+i)
-                log = "archivation: "+page_from + '/' + i
-                self.log_files(log)
+                log_file = "archivation: "+page_from + '/' + i
+                log.log_files(log_file)
         snap.close()
         return page_from+f"/snapshot_{self.current_time}.zip"

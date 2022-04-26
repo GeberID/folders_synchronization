@@ -1,9 +1,9 @@
 from client import Client
 from page import Page
-
+from logs import Logs
 client = Client()
 page = Page()
-
+log = Logs()
 folder_from = input("Sync folder from:")
 folder_to = input('Sync folder to:')
 print('''
@@ -16,11 +16,11 @@ ans = input()
 if int(ans) == 0:
     print('Sync...')
     page.copy_from_server(client, client, folder_to)
-    page.send_log_files(client)
+    log.send_log_files(client)
 elif int(ans) == 1:
     print('Sync...')
     page.copy_to_server(client, folder_from, folder_to)
-    page.send_log_files(client)
+    log.send_log_files(client)
 else:
     print('Close...')
 
