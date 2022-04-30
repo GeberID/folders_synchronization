@@ -1,6 +1,7 @@
 from client import Client
 from page import Page
 from logs import Logs
+from datetime import datetime
 client = Client()
 page = Page()
 log = Logs()
@@ -15,12 +16,16 @@ if folder_to == "":
 ans = input()
 if int(ans) == 0:
     print('Sync...')
-    page.copy_from_server(client, client, folder_to)
-    log.send_log_files(client)
+    now = datetime.now()
+    current_time = now.strftime("%m_%d_%Y_%H_%M_%S")
+    page.copy_from_server(client, client, folder_to,current_time)
+    log.send_log_files(client,current_time)
 elif int(ans) == 1:
     print('Sync...')
-    page.copy_to_server(client, folder_from, folder_to)
-    log.send_log_files(client)
+    now = datetime.now()
+    current_time = now.strftime("%m_%d_%Y_%H_%M_%S")
+    page.copy_to_server(client, folder_from, folder_to,current_time)
+    log.send_log_files(client,current_time)
 else:
     print('Close...')
 

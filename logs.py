@@ -1,9 +1,8 @@
-from datetime import datetime
 import os
+from datetime import datetime
 
 class Logs:
     def __init__(self):
-        self.current_time = 0
         self.log_file_link = None
         self.files_url_list = list()
     def walk_local_page(self, page):
@@ -19,11 +18,11 @@ class Logs:
         return files
 
     # Создание лога и записи в него переданных файлов
-    def log_files(self, files):
+    def log_files(self, files,):
         now = datetime.now()
-        self.current_time = now.strftime("%m_%d_%Y_%H_%M_%S")
-        file = open(f'logs/log_{self.current_time}.txt', 'a')
-        file.write("Current Time = " + self.current_time + '\n')
+        current_time = now.strftime("%m_%d_%Y_%H_%M_%S")
+        file = open(f'logs/log_{current_time}.txt', 'a')
+        file.write("Current Time = " + current_time + '\n')
         file.write(files + '\n')
         self.log_file_link = os.getcwd() + f"/logs"
         file.close()
@@ -33,15 +32,13 @@ class Logs:
         for i in self.files_url_list:
             os.remove(i)
 
-    def send_log_files(self, transfer):
+    def send_log_files(self, transfer,current_time):
         self.log_file_link = os.getcwd() + f"/logs"
-        now = datetime.now()
-        self.current_time = now.strftime("%m_%d_%Y_%H_%M_%S")
         try:
             files_list = self.walk_local_page(self.log_file_link)
             for i in files_list:
                 transfer.put_files(self.log_file_link + "/" + i,
-                                   f'/media/pi/D/share/BACKUPS/logs/log_{self.current_time}.txt')
+                                   f'/media/pi/D/share/BACKUPS/logs/log_{current_time}.txt')
         except:
             print('Error send log file')
         self.delete_log_file()

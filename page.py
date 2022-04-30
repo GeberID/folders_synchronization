@@ -1,5 +1,4 @@
 import os, zipfile
-from datetime import datetime
 from logs import Logs
 log = Logs()
 class Page:
@@ -8,7 +7,6 @@ class Page:
         self.files_url_list = list()
         self.dir_list = list()
         self.check = 0
-        self.current_time = 0
         self.log_file_link = None
 
 #Проверка на существтвание локадьной папки
@@ -79,8 +77,8 @@ class Page:
 #         self.delete_log_file()
 
 # Обертка копирования информации с локальной папки на удаленное устройство
-    def copy_to_server(self, transfer, page_from, page_to):
-        snap_list = self.create_snapshot(page_from)
+    def copy_to_server(self, transfer, page_from, page_to,current_time):
+        snap_list = self.create_snapshot(page_from,current_time)
         remote_file_list = snap_list.replace(page_from,"")
         transfer.put_files(snap_list, page_to + remote_file_list)
         os.remove(snap_list)
@@ -97,17 +95,16 @@ class Page:
 
 #Функция создает снапшот папки на компьютере со всеми файлами находящейся в ней.
 # Необходима для последующей передачи файла локально на удаленный компьютер (разберри)
-    def create_snapshot(self,page_from):
-        now = datetime.now()
-        self.current_time = now.strftime("%m_%d_%Y_%H_%M_%S")
-        snap = zipfile.ZipFile(page_from+f"/snapshot_{self.current_time}.zip",mode='w')
+    def create_snapshot(self,page_from,current_time):
+
+        snap = zipfile.ZipFile(page_from+f"/snapshot_{current_time}.zip",mode='w')
         files_list = self.walk_local_page(page_from)
         for i in files_list:
-            if i == f"snapshot_{self.current_time}.zip":
+            if i == f"snapshot_{current_time}.zip":
                 continue
             else:
                 snap.write(page_from+"/"+i)
                 log_file = "archivation: "+page_from + '/' + i
-                log.log_files(log_file)
+                log.log_files(log_file,current_time)
         snap.close()
-        return page_from+f"/snapshot_{self.current_time}.zip"
+        return page_from+f"/snapshot_{current_time}.zip"
