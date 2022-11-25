@@ -4,7 +4,7 @@ class Client:
     host = '10.37.168.10'
     port = 22
     username = 'pi'
-    passw = 'GE7456!@R842VZ'
+    passw = '1111'
 
     def __init__(self):
         self.ssh = None
